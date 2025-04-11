@@ -1,0 +1,40 @@
+# Compiled Object files
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+
+# Executables
+*.exe
+*.out
+*.app
+build/
+
+# Build directories
+build/
+bin/
+obj/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.log
+*.tmp
+
+# Python cache (if using Python for plotting)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Data files (uncommenting this would prevent committing results)
+# *.csv
+
+# OS specific files
+.DS_Store
+Thumbs.db
