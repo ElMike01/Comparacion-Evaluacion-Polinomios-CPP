@@ -1,40 +1,48 @@
-# Compiled Object files
+# Archivos compilados
 *.o
-*.obj
-*.so
-*.dylib
-*.dll
-
-# Executables
-*.exe
 *.out
-*.app
-build/
+*.exe
+polynomial_evaluation
 
-# Build directories
-build/
-bin/
-obj/
-
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Temporary files
-*.log
-*.tmp
-
-# Python cache (if using Python for plotting)
+# Archivos generados por Python
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Data files (uncommenting this would prevent committing results)
-# *.csv
+# Entornos virtuales
+env/
+venv/
+ENV/
 
-# OS specific files
+# Archivos y carpetas específicos del IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Archivos del sistema
 .DS_Store
 Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
