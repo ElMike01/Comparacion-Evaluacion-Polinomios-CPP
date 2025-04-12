@@ -1,96 +1,83 @@
-# Comparacion-Evaluacion-Polinomios-CPP
-# Comparación de Eficiencia en Evaluación de Polinomios: Método Estándar vs. Algoritmo de Horner
+# Comparación de Eficiencia: Evaluación de Polinomios
 
-Este proyecto implementa y compara experimentalmente la eficiencia computacional del algoritmo estándar de evaluación de polinomios frente al algoritmo de Horner en C++.
+Este repositorio contiene una implementación en C++ para comparar la eficiencia computacional del algoritmo estándar de evaluación de polinomios versus el algoritmo de Horner.
 
 ## Autor
-
 [Joan Antonio Lazaro Silva]
 
 ## Requisitos del Sistema
-
-- Compilador C++ con soporte para C++11 o superior (g++ 5.0+, clang++ 3.4+, o MSVC 19.0+)
-- CMake 3.10 o superior (opcional, para facilitar la compilación)
-- Python 3.6+ con matplotlib (opcional, para generar gráficas)
+- Compilador C++ compatible con C++11 o superior (g++ recomendado)
+- Python 3.x con las bibliotecas matplotlib y pandas (para generar gráficas)
 
 ## Instrucciones de Compilación y Ejecución
 
-### Compilación Manual
-
+### Compilación del Código C++
 ```bash
-# Crear directorios necesarios
-mkdir -p build data
+# Crear directorio para datos si no existe
+mkdir -p data
 
-# Compilar el proyecto
-g++ -std=c++11 -O3 -Wall -Wextra src/polynomial.cpp src/main.cpp -o build/polynomial_benchmark
-
-# Ejecutar el benchmark
-./build/polynomial_benchmark
+# Compilar el programa
+g++ -std=c++11 -O2 src/polynomial_evaluation.cpp -o polynomial_evaluation
 ```
 
-### Usar CMake (opcional)
-
+### Ejecución del Experimento
 ```bash
-mkdir build && cd build
-cmake ..
-make
-./polynomial_benchmark
+# Ejecutar el programa de evaluación
+./polynomial_evaluation
 ```
 
-### Generar Gráfica (requiere Python con matplotlib)
-
+### Generación de Gráficas
 ```bash
-python scripts/generate_graph.py
+# Ejecutar el script de Python para generar gráficas
+python plot_results.py
 ```
 
 ## Descripción de los Algoritmos
 
 ### Método Estándar
+El método estándar para evaluar un polinomio P(x) = a_n * x^n + a_{n-1} * x^{n-1} + ... + a_1 * x + a_0 consiste en calcular directamente cada término elevando x a la potencia correspondiente y multiplicando por el coeficiente, para luego sumar todos los términos:
 
-El método estándar para evaluar un polinomio P(x) = a_n * x^n + a_{n-1} * x^{n-1} + ... + a_1 * x + a_0 consiste en calcular cada término por separado y sumar los resultados:
+```
+P(x) = a_n * x^n + a_{n-1} * x^{n-1} + ... + a_1 * x + a_0
+```
 
-1. Calcular a_n * x^n
-2. Calcular a_{n-1} * x^{n-1}
-...
-3. Calcular a_1 * x
-4. Sumar todos los términos más a_0
+Este método tiene una complejidad computacional de O(n²) debido a que el cálculo de potencias como x^n requiere n-1 multiplicaciones.
 
-Este método tiene una complejidad temporal de O(n²) debido a que calcular cada potencia de x requiere O(n) operaciones.
+### Método de Horner
+El método de Horner reorganiza el polinomio mediante factorización para minimizar las operaciones:
 
-### Algoritmo de Horner
-
-El algoritmo de Horner, también conocido como esquema de Horner, reordena los cálculos para minimizar el número de operaciones:
-
+```
 P(x) = (...((a_n * x + a_{n-1}) * x + a_{n-2}) * x + ... + a_1) * x + a_0
+```
 
-Este método tiene una complejidad temporal de O(n), ya que solo requiere n multiplicaciones y n sumas.
+Este algoritmo tiene una complejidad computacional de O(n), ya que requiere exactamente n multiplicaciones y n sumas para evaluar un polinomio de grado n.
 
 ## Resultados Experimentales
 
-A continuación se muestra una gráfica comparativa de los tiempos de ejecución promedio de ambos métodos para polinomios de grados entre 10 y 1000:
+### Gráfica Comparativa
+![Comparación de Eficiencia](docs/comparison_plot.png)
 
-![Gráfica comparativa de tiempos](docs/graph.png)
+### Relación de Tiempos
+![Relación de Tiempos](docs/ratio_plot.png)
 
 ## Análisis de Resultados
 
-El análisis experimental confirma la diferencia teórica en complejidad entre los dos algoritmos:
+Los experimentos confirman la ventaja teórica del algoritmo de Horner en términos de eficiencia computacional:
 
-1. **Algoritmo Estándar (O(n²))**: Los tiempos de ejecución crecen cuadráticamente con el grado del polinomio, lo que se evidencia en la curva más pronunciada en la gráfica.
+1. **Comparación de Tiempos:** El método de Horner es consistentemente más rápido que el método estándar. La diferencia de rendimiento se vuelve más pronunciada conforme aumenta el grado del polinomio.
 
-2. **Algoritmo de Horner (O(n))**: Los tiempos de ejecución crecen linealmente con el grado del polinomio, resultando en una pendiente mucho más suave.
+2. **Escalabilidad:** El tiempo de ejecución del método estándar crece cuadráticamente con el grado del polinomio (O(n²)), mientras que el método de Horner crece linealmente (O(n)).
 
-La diferencia entre ambos métodos se hace más evidente a medida que aumenta el grado del polinomio. Por ejemplo, para un polinomio de grado 1000, el método estándar es aproximadamente [X] veces más lento que el algoritmo de Horner.
+3. **Proporción de Tiempos:** Para polinomios de alto grado, el método estándar puede ser hasta n veces más lento que el método de Horner, lo que corrobora la diferencia teórica en complejidad algorítmica.
 
-Esta diferencia se debe principalmente a:
-- El método estándar requiere calcular potencias de x para cada término (operación costosa)
-- El algoritmo de Horner reutiliza cálculos previos, eliminando la necesidad de calcular potencias
+4. **Precisión Numérica:** Ambos métodos producen resultados numéricamente equivalentes (dentro del margen de error de punto flotante), por lo que la elección entre ellos no afecta la precisión del resultado.
 
 ## Conclusiones
 
-Los resultados experimentales confirman claramente la ventaja teórica del algoritmo de Horner sobre el método estándar para la evaluación de polinomios:
+1. El algoritmo de Horner representa una mejora significativa sobre el método estándar para la evaluación de polinomios, especialmente para polinomios de grado elevado.
 
-1. El algoritmo de Horner es significativamente más eficiente, especialmente para polinomios de alto grado.
-2. La diferencia de rendimiento aumenta con el grado del polinomio, alineándose con las complejidades teóricas (O(n) vs O(n²)).
-3. Para aplicaciones prácticas donde se requiera evaluar polinomios repetidamente, el algoritmo de Horner debería ser la opción preferida.
+2. La optimización matemática que realiza el método de Horner mediante factorización se traduce en una ventaja computacional clara y medible.
 
-Este proyecto demuestra cómo una simple reorganización matemática de un algoritmo puede tener un impacto significativo en su rendimiento computacional.
+3. Para aplicaciones donde la eficiencia es crítica, como procesamiento de señales o gráficos por computadora, el método de Horner debería ser la elección preferida para la evaluación de polinomios.
+
+4. Los resultados experimentales confirman plenamente la ventaja teórica de complejidad O(n) del método de Horner frente a la complejidad O(n²) del método estándar.
